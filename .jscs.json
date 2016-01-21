@@ -1,0 +1,29 @@
+{
+  "disallowKeywords": ["with"],
+  "disallowTrailingWhitespace": true,
+  "requireCurlyBraces": ["if", "else", "for", "while", "do", "try", "catch", "finally"],
+  "requireSpaceAfterKeywords": ["if", "else", "for", "while", "do", "switch", "return", "try", "catch", "finally", "typeof", "function"],
+  "requireParenthesesAroundIIFE": true,
+  "requireSpacesInConditionalExpression": true,
+  "disallowMultipleVarDecl": true,
+  "disallowSpaceAfterPrefixUnaryOperators": true,
+  "disallowSpaceBeforePostfixUnaryOperators": true,
+  "disallowTrailingComma": true,
+  "requireCapitalizedConstructors": true,
+  "requireDotNotation": true,
+  "disallowNewlineBeforeBlockStatements": true,
+  "validateParameterSeparator": ", ",
+  "requireSpaceBeforeBlockStatements": true,
+  "requireBlocksOnNewline": 1,
+  "requireSpaceBeforeObjectValues": true,
+  "requireSpaceBeforeBinaryOperators": true,
+  "requireSpaceAfterBinaryOperators": true,
+  "disallowKeywordsOnNewLine": ["else"],
+  "requireSpacesInFunction": {
+    "beforeOpeningRoundBrace": true,
+    "beforeOpeningCurlyBrace": true
+  },
+  "validateIndentation": 2,
+  "disallowMixedSpacesAndTabs": true,
+  "safeContextKeyword": ["that", "self"]
+}

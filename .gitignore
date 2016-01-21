@@ -1,0 +1,19 @@
+.idea
+*.iml
+*.log
+.tmp
+.sass-cache
+/dist/*.tgz
+/docs
+/node_modules
+/bower_components
+.DS_Store
+.project
+
+# netbeans
+/nbproject/private/
+customs.json
+
+# Testing
+/coverage
+/test

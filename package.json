@@ -1,0 +1,38 @@
+{
+  "author": "Matthew Kaname Thompson <bangersnhash@gmail.com>",
+  "name": "angular-more-menu",
+  "description": "a responsive angular horizontal menu with items that automatically overflow into a 'More' menu",
+  "version": "0.0.1",
+  "homepage": "http://bangersnhash.com/angular-more-menu",
+  "repository": "https://github.com/bangersnhash/angular-more-menu.git",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^3.1.0"
+  },
+  "devDependencies": {
+    "connect-livereload": "^0.5.4",
+    "del": "^2.2.0",
+    "event-stream": "^3.3.2",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-clean": "^0.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-embedlr": "^0.5.2",
+    "gulp-jshint": "^2.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-ng-templates": "0.0.6",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.1.1",
+    "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
+    "jshint": "^2.9.1",
+    "tiny-lr": "^0.2.1"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}

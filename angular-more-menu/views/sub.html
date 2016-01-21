@@ -1,0 +1,25 @@
+<div class="more-menu-sub" role="menu" ng-if="child.isOpen && child.children && child.children.length" ng-style="subStyle">
+  <div class="more-menu-sub-content">
+    <ul ng-if="!child.columns || child.columns <= 1">
+      <li class="more-menu-sub-item" role="menuitem" ng-repeat="child in child.children">
+        <a ng-click="handleClick($event, child)" ng-href="{{getOptionHref(child)}}" ng-if="!child.hasDropdown">
+          {{child.title}}
+        </a>
+        <div ng-if="child.hasDropdown">
+          <span class="has-dropdown" ng-click="handleClick($event, child)" ng-class="{'is-open': child.isOpen}">{{child.title}}</span>
+          <more-menu-sub ng-if="child.isOpen" options="child"></more-menu-sub>
+        </div>
+      </li>
+    </ul>
+    <ul ng-if="child.columns > 1" ng-repeat="column in child.children">
+      <li class="more-menu-sub-head">{{column.title}}</li>
+      <li class="more-menu-sub-item" role="menuitem" ng-repeat="child in column.children">
+        <a ng-click="handleClick($event, child)" ng-href="{{getOptionHref(child)}}" ng-if="!child.hasDropdown">
+          {{child.title}}
+        </a>
+        <span ng-if="child.hasDropdown">{{child.title}}</span>
+        <more-menu-sub ng-if="child.hasDropdown && child.isOpen" options="child"></more-menu-sub>
+      </li>
+    </ul>
+  </div>
+</div>

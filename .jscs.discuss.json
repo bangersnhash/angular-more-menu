@@ -1,0 +1,5 @@
+{
+  "disallowMultipleLineBreaks": true,
+  "maximumLineLength": 120,
+  "disallowAnonymousFunctions": true
+}

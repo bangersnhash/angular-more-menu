@@ -1,0 +1,35 @@
+{
+  "name": "angular-more-menu",
+  "description": "a responsive angular horizontal menu with items that automatically overflow into a 'More' menu",
+  "author": "Matthew Kaname Thompson <bangersnhash@gmail.com>",
+  "homepage": "http://bangersnhash.com/angular-more-menu",
+  "version": "0.0.1",
+  "main": [
+    "dist/main.js",
+    "dist/styles/main.css"
+  ],
+  "dependencies": {
+    "lodash": "^3.1.0"
+  },
+  "ignore": [
+    "app",
+    "node_modules",
+    "test",
+    "**/.*",
+    "*.md",
+    "*.spec.js",
+    "Gruntfile.js",
+    "package.json",
+    "karma*.*"
+  ],
+  "devDependencies": {
+    "jquery": "1.11.1",
+    "angular-sanitize": "1.2 - 1.4",
+    "angular-mocks": "1.2 - 1.4",
+    "angular-ui-router": "^0.2.10"
+  },
+  "private": true,
+  "resolutions": {
+    "lodash": "^3.1.0"
+  }
+}

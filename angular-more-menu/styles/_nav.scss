@@ -1,0 +1,130 @@
+@charset "utf-8";
+
+
+
+.more-menu {
+  position: relative;
+  height: $bnh-menu-height !important;
+  font-size: 0;
+  text-align: center;
+  .phone-only, .is-hidden {
+    display: none !important;
+  }
+}
+.more-menu-item {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  list-style: none;
+  white-space: nowrap;
+  a, span {
+    display: block;
+    height: $bnh-menu-height;
+    padding: 10px 20px 0;
+    font-size: 11px;
+    color: $gray-lightest;
+    text-decoration: none;
+  }
+  &.is-active a, &.is-active span {
+    color: $color-hyperlink;
+  }
+  &.is-open {
+    color: $bnh-sub-background;
+    background: $color-hyperlink;
+  }
+  &.is-active:after, &:hover:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: $color-hyperlink;
+  }
+}
+
+.more-menu-sub {
+  //display: none;
+  position: absolute;
+  top: $bnh-menu-height;
+  left: 0;
+  opacity: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.more-menu-sub-content {
+  padding-bottom: 3px;
+  background: rgba(0,0,0,0.8);
+  min-width: 200px;
+  border-top: 3px solid $color-hyperlink;
+  text-align: left;
+  > ul {
+    display: inline-block;
+    vertical-align: top;
+    min-width: 200px;
+  }
+  .more-menu-item {
+    display: block;
+    text-align: left;
+    position: static;
+  }
+  // Nested sub menu
+  .more-menu-sub {
+    position: static;
+    opacity: 1;
+    overflow-y: visible;
+    overflow-x: visible;
+  }
+  .more-menu-sub-content {
+    padding-bottom: 0;
+    background: #000;
+    border: none;
+    border-bottom: 1px solid $color-hyperlink;
+    > ul {
+      display: block;
+    }
+  }
+}
+
+.more-menu-sub-head {
+  color: $gray-lightest;
+  font-size: 12px;
+  border-bottom: 1px solid $gray-lightest;
+  margin: 0 15px 10px;
+  padding: 10px 5px 3px;
+  font-weight: bold;
+}
+
+.more-menu-sub-item {
+  a, span {
+    height: auto;
+    padding: 8px 20px;
+    font-weight: normal;
+    &:hover, &.is-open {
+      color: $bnh-sub-background;
+      background: $color-hyperlink;
+    }
+  }
+  .more-menu-sub-item {
+    background: $bnh-sub-background;
+    a {
+      padding-left: $bnh-menu-height;
+    }
+  }
+}
+li ~ .more-menu-sub-head {
+  margin-top: 10px;
+}
+.has-dropdown:after {
+  content: '';
+  display: inline-block;
+  margin: 0 0 0 10px;
+  border: 4px solid transparent;
+  border-top-color: $gray-lightest;
+  vertical-align: sub;
+}
+.is-open > .has-dropdown:after, .is-open.has-dropdown:after {
+  border-bottom-color: $gray-lightest;
+  border-top-color: transparent;
+  vertical-align: initial;
+}

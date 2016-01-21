@@ -1,0 +1,117 @@
+[
+  {
+    "title": "Home",
+    "uri": "/#/"
+  },
+  {
+    "title": "Menu Item A",
+    "children": [
+      {
+        "title":"Sub Item 1",
+        "uri": "/subitem"
+      },
+      {
+        "title":"Sub Item 2",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 3",
+        "uri": "/subitem"
+      }
+    ]
+  },
+  {
+    "title": "Menu Item B",
+    "children": [
+      {
+        "title":"Sub Item 1",
+        "uri": "/subitem"
+      },
+      {
+        "title":"Sub Item 2",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 3",
+        "uri": "/subitem"
+      }
+    ]
+  },
+  {
+    "title": "Menu Item C",
+    "sref": "main.demostate"
+  },
+  {
+    "title": "Menu Item D",
+    "children": [
+      {
+        "title":"Sub Item 1",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 2",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 3",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 4",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 5",
+        "uri": "/subitem"
+      },{
+        "title":"Sub Item 6",
+        "uri": "/subitem"
+      }
+    ]
+  },
+  {
+    "title": "Menu With Columns",
+    "children": [
+      {
+        "title": "Header 1",
+        "children": [{
+          "title": "Example A",
+          "uri": "/#/example"
+        },
+        {
+          "title": "Example B",
+          "uri": "/#/example"
+        }]
+      },
+      {
+        "title": "Header 2",
+        "children": [{
+          "title": "Another Column A",
+          "uri": "/#/another",
+
+        },{
+          "title": "Another Column B",
+          "uri": "/#/another",
+
+        }]
+      },
+      {
+        "title": "Header 3",
+        "children": [{
+          "title": "Example Link",
+          "uri": "/#/example"
+        },
+        {
+          "title": "Example Link",
+          "uri": "/#/example"
+        }]
+      }
+    ]
+  },
+  {
+    "title": "Menu Item E",
+    "uri": "/#/example"
+  },
+  {
+    "title": "Menu Item F",
+    "uri": "/#/example"
+  },
+  {
+    "title": "Menu Item G",
+    "uri": "/#/example"
+  }
+]

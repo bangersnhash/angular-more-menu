@@ -1,32 +1,30 @@
-.bnh-nav {
+.more-menu {
   position: relative;
   height: 35px !important;
   font-size: 0;
   text-align: center; }
-  .bnh-nav.has-more .bnh-more-option {
-    display: inline-block; }
-  .bnh-nav .phone-only, .bnh-nav .is-hidden {
+  .more-menu .phone-only, .more-menu .is-hidden {
     display: none !important; }
 
-.bnh-menu-item {
+.more-menu-item {
   position: relative;
   display: inline-block;
   vertical-align: top;
   list-style: none;
   white-space: nowrap; }
-  .bnh-menu-item a, .bnh-menu-item span {
+  .more-menu-item a, .more-menu-item span {
     display: block;
     height: 35px;
     padding: 10px 20px 0;
     font-size: 11px;
     color: #fff;
     text-decoration: none; }
-  .bnh-menu-item.is-active a, .bnh-menu-item.is-active span {
+  .more-menu-item.is-active a, .more-menu-item.is-active span {
     color: #0090ff; }
-  .bnh-menu-item.is-open {
+  .more-menu-item.is-open {
     color: #333;
     background: #0090ff; }
-  .bnh-menu-item.is-active:after, .bnh-menu-item:hover:after {
+  .more-menu-item.is-active:after, .more-menu-item:hover:after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -35,7 +33,7 @@
     height: 3px;
     background: #0090ff; }
 
-.bnh-sub {
+.more-menu-sub {
   position: absolute;
   top: 35px;
   left: 0;
@@ -43,34 +41,34 @@
   overflow-y: auto;
   overflow-x: hidden; }
 
-.bnh-sub-content {
+.more-menu-sub-content {
   padding-bottom: 3px;
   background: rgba(0, 0, 0, 0.8);
   min-width: 200px;
   border-top: 3px solid #0090ff;
   text-align: left; }
-  .bnh-sub-content > ul {
+  .more-menu-sub-content > ul {
     display: inline-block;
     vertical-align: top;
     min-width: 200px; }
-  .bnh-sub-content .bnh-menu-item {
+  .more-menu-sub-content .more-menu-item {
     display: block;
     text-align: left;
     position: static; }
-  .bnh-sub-content .bnh-sub {
+  .more-menu-sub-content .more-menu-sub {
     position: static;
     opacity: 1;
     overflow-y: visible;
     overflow-x: visible; }
-  .bnh-sub-content .bnh-sub-content {
+  .more-menu-sub-content .more-menu-sub-content {
     padding-bottom: 0;
     background: #000;
     border: none;
     border-bottom: 1px solid #0090ff; }
-    .bnh-sub-content .bnh-sub-content > ul {
+    .more-menu-sub-content .more-menu-sub-content > ul {
       display: block; }
 
-.bnh-sub-head {
+.more-menu-sub-head {
   color: #fff;
   font-size: 12px;
   border-bottom: 1px solid #fff;
@@ -78,20 +76,20 @@
   padding: 10px 5px 3px;
   font-weight: bold; }
 
-.bnh-sub-item a, .bnh-sub-item span {
+.more-menu-sub-item a, .more-menu-sub-item span {
   height: auto;
   padding: 8px 20px;
   font-weight: normal; }
-  .bnh-sub-item a:hover, .bnh-sub-item a.is-open, .bnh-sub-item span:hover, .bnh-sub-item span.is-open {
+  .more-menu-sub-item a:hover, .more-menu-sub-item a.is-open, .more-menu-sub-item span:hover, .more-menu-sub-item span.is-open {
     color: #333;
     background: #0090ff; }
 
-.bnh-sub-item .bnh-sub-item {
+.more-menu-sub-item .more-menu-sub-item {
   background: #333; }
-  .bnh-sub-item .bnh-sub-item a {
+  .more-menu-sub-item .more-menu-sub-item a {
     padding-left: 35px; }
 
-li ~ .bnh-sub-head {
+li ~ .more-menu-sub-head {
   margin-top: 10px; }
 
 .has-dropdown:after {

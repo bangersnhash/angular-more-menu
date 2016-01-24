@@ -39,8 +39,8 @@ angular.module('bnh.moremenu')
       return {
       restrict: 'E',
       scope: {
-        data: '=?',
-        dataSource: '=?',
+        source: '=?',
+        sourceJson: '=?',
         menuFilter: '=?'
       },
       templateUrl: 'angular-more-menu/views/nav.html',
@@ -49,8 +49,8 @@ angular.module('bnh.moremenu')
         $scope.$element = $(element);
 
         // Set default values for chrome options if not specified on directive
-        if (!$scope.dataSource) {
-          $scope.dataSource = 'data/mainmenu.json';
+        if (!$scope.source && !$scope.sourceJson) {
+          $scope.sourceJson = 'data/mainmenu.json';
         }
         if ($scope.menuFilter) {
           moreMenuService.setMenuFilter($scope.menuFilter);
@@ -61,8 +61,8 @@ angular.module('bnh.moremenu')
         var $state = ($scope.hasUiRouter) ? $injector.get('ui.router') : null;
 
         // Store current json source for menus
-        var sourceUrl = {
-          'mainmenu': $scope.dataSource
+        var sourceJson = {
+          'mainmenu': $scope.sourceJson
         };
         var source = {
           'mainmenu': $scope.data
@@ -135,19 +135,20 @@ angular.module('bnh.moremenu')
         $scope.$watch('breadcrumb', $scope.redrawMenuItems, true);
 
         // Refresh menu options if the source changes
-        $scope.$watch('dataSource', function () {
-          if ($scope.dataSource && $scope.dataSource !== sourceUrl.mainmenu) {
-            sourceUrl.mainmenu = $scope.dataSource;
+        $scope.$watch('sourceJson', function () {
+          if ($scope.sourceJson && $scope.sourceJson !== sourceJson.mainmenu) {
+            sourceJson.mainmenu = $scope.sourceJson;
             updateMenu('mainmenu');
           }
         });
-        $scope.$watch('usermenuSource', function () {
-          if ($scope.usermenuSource && $scope.usermenuSource !== sourceUrl.usermenu) {
-            sourceUrl.usermenu = $scope.usermenuSource;
-            updateMenu('usermenu');
+
+        // Refresh menu options if the source changes
+        $scope.$watch('sourceJson', function () {
+          if ($scope.sourceJson && $scope.sourceJson !== sourceJson.mainmenu) {
+            sourceJson.mainmenu = $scope.sourceJson;
+            updateMenu('mainmenu');
           }
         });
-
 
         $scope.$watch('pageTitleContent', function (content) {
           var pageTitleElement = $scope.$element.find('#title-content');
@@ -228,8 +229,8 @@ angular.module('bnh.moremenu')
         function updateMenu (menuType) {
           var deferred = $q.defer();
 
-          if (sourceUrl[menuType]) {
-            $http.get(sourceUrl[menuType]).then(function (result) {
+          if (sourceJson[menuType]) {
+            $http.get(sourceJson[menuType]).then(function (result) {
               if (result && result.data) {
                 populateMenu(menuType, result.data);
               } else {

@@ -1,17 +1,7 @@
-'use strict';
+(function(){
+"use strict";
 
-var angular = require('angular');
-
-angular.module('bnh.more.menu', []);
-
-require('./scripts/nav');
-require('./scripts/nav-item');
-require('./scripts/service');
-require('./scripts/sub');
-
-$templateCache.put("nav.html","\n\n<nav class=\"bnh-nav\" ng-class=\"{\'is-open\': options.mainmenu.isOpen, \'is-hidden\': options.mainmenu.isHidden}\" ng-style=\"options.mainmenu.style\">\n  <ul ng-show=\"showMainmenu\" class=\"bnh-menu-items\" role=\"menu\">\n    <li class=\"bnh-menu-item phone-only all-products is-hidden\">\n      <a href=\"#\" ng-click=\"showProductSelect()\">\n        <svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" x=\"0px\" y=\"0px\" width=\"16px\" height=\"16px\" viewBox=\"0 0 408 408\" style=\"enable-background:new 0 0 408 408;\" xml:space=\"preserve\"><g><g id=\"apps\"><path d=\"M0,102h102V0H0V102z M153,408h102V306H153V408z M0,408h102V306H0V408z M0,255h102V153H0V255z M153,255h102V153H153V255z     M306,0v102h102V0H306z M153,102h102V0H153V102z M306,255h102V153H306V255z M306,408h102V306H306V408z\"/></g></g></svg>\n        All Products\n      </a>\n    </li>\n\n    <li bnh-menu-item class=\"bnh-menu-item\" role=\"menuitem\" ng-repeat=\"child in options.mainmenu.children\" option=\"child\" ng-class=\"{\'is-active\': isCurrentState(child), \'is-open\': child.isOpen, \'is-hidden\': child.isHidden }\">\n      <a ng-click=\"handleClick($event, child)\" ng-href=\"{{getOptionHref(child)}}\" ng-class=\"{\'has-dropdown\': child.children}\">\n        {{child.title}}\n      </a>\n      <bnh-sub options=\"child\"></bnh-sub>\n    </li>\n\n    <li class=\"bnh-menu-item\" role=\"menuitem\" option=\"options.moremenu\" ng-class=\"{\'is-open\': options.moremenu.isOpen, \'is-hidden\': options.moremenu.isHidden}\">\n      <a class=\"has-dropdown\" ng-click=\"handleClick($event, options.moremenu)\">\n        {{options.moremenu.title}}\n      </a>\n      <bnh-sub ng-if=\"options.moremenu.isOpen\" options=\"options.moremenu\"></bnh-sub>\n    </li>\n  </ul>\n</nav>\n");
-
-'use strict';
+angular.module('bnh.moremenu', []);
 
 /**
 * @ngdoc directive
@@ -22,8 +12,8 @@ $templateCache.put("nav.html","\n\n<nav class=\"bnh-nav\" ng-class=\"{\'is-open\
 * Adds behavior to Menu items, including overflow calculations.
 */
 
-angular.module('bnh.more.menu')
-  .directive('bnhMenuItem', ['moreMenuService', bnhMenuItem]);
+angular.module('bnh.moremenu')
+  .directive('moreMenuItem', ['moreMenuService', bnhMenuItem]);
 
 function bnhMenuItem (moreMenuService) {
   return {
@@ -45,10 +35,6 @@ function bnhMenuItem (moreMenuService) {
   };
 }
 
-$templateCache.put("sub.html","<div class=\"bnh-sub\" role=\"menu\" ng-if=\"child.isOpen && child.children && child.children.length\" ng-style=\"subStyle\">\n  <div class=\"bnh-sub-content\">\n    <ul ng-if=\"!child.columns || child.columns <= 1\">\n      <li class=\"bnh-sub-item\" role=\"menuitem\" ng-repeat=\"child in child.children\" ag-feature=\"{{child[\'feature-toggle\']}}\">\n        <a ng-click=\"handleClick($event, child)\" ng-href=\"{{getOptionHref(child)}}\" ng-if=\"!child.hasDropdown\">\n          {{child.title}}\n        </a>\n        <div ng-if=\"child.hasDropdown\">\n          <span class=\"has-dropdown\" ng-click=\"handleClick($event, child)\" ng-class=\"{\'is-open\': child.isOpen}\">{{child.title}}</span>\n          <bnh-sub ng-if=\"child.isOpen\" options=\"child\"></bnh-sub>\n        </div>\n      </li>\n    </ul>\n    <ul ng-if=\"child.columns > 1\" ng-repeat=\"column in child.children\">\n      <li class=\"bnh-sub-head\">{{column.title}}</li>\n      <li class=\"bnh-sub-item\" role=\"menuitem\" ng-repeat=\"child in column.children\" ag-feature=\"{{child[\'feature-toggle\']}}\">\n        <a ng-click=\"handleClick($event, child)\" ng-href=\"{{getOptionHref(child)}}\" ng-if=\"!child.hasDropdown\">\n          {{child.title}}\n        </a>\n        <span ng-if=\"child.hasDropdown\">{{child.title}}</span>\n        <bnh-sub ng-if=\"child.hasDropdown && child.isOpen\" options=\"child\"></bnh-sub>\n      </li>\n    </ul>\n  </div>\n</div>\n");
-
-'use strict';
-
 /**
  * @ngdoc directive
  * @name bnh.moremenu.directive:bnhMoreMenu
@@ -58,8 +44,8 @@ $templateCache.put("sub.html","<div class=\"bnh-sub\" role=\"menu\" ng-if=\"chil
  * Generate menu wrapper
  *
  */
-angular.module('bnh.more.menu')
-  .directive('bnhMoreMenu', [
+angular.module('bnh.moremenu')
+  .directive('moreMenu', [
     '$compile',
     '$document',
     '$http',
@@ -310,7 +296,7 @@ angular.module('bnh.more.menu')
             $timeout(function () {
               $scope.$apply(function () {
                 // Trigger overflow calculations
-                $scope.$broadcast('bnh-responsive-nav:overflow');
+                $scope.$broadcast('more-menu:overflow');
 
                 var hidden = angular.copy(moreMenuService.setProperty($scope.options.mainmenu.children, { isHidden: true }, { isOverflow: true }));
                 // Show the more menu option if there are overflow menus
@@ -356,8 +342,6 @@ angular.module('bnh.more.menu')
   ]
 );
 
-
-'use strict';
 /**
 * @ngdoc service
 * @name bnh.moremenu.factory:moreMenuService
@@ -366,7 +350,7 @@ angular.module('bnh.more.menu')
 * Common methods for More Menu directives.
 */
 
-angular.module('bnh.more.menu')
+angular.module('bnh.moremenu')
   .factory('moreMenuService', ['$filter', '$compile', '$window', moreMenuService]);
 
 function moreMenuService ($filter, $compile, $window) {
@@ -584,77 +568,77 @@ function moreMenuService ($filter, $compile, $window) {
 
 }
 
-module.exports = function () {
+angular.module('bnh.moremenu')
 
-  'use strict';
+/**
+ * @ngdoc directive
+ * @name bnh.moreMenu.directive:bnhSub
+ * @restrict E
+ *
+ * @description
+ * Adds behavior to Dropdown items, including repositioning menus when overflowed.
+ */
+  .directive('moreMenuSub', [
+    '$timeout',
+    'moreMenuService',
+    function ($timeout, moreMenuService) {
+      return {
+        restrict: 'E',
+        scope: {
+          child: '=options'
+        },
+        templateUrl: 'angular-more-menu/views/sub.html',
 
-  angular.module('bnh.more.menu')
+        compile: function (element) {
+          return moreMenuService.recursiveCompile(element, function ($scope, element) {
 
-  /**
-   * @ngdoc directive
-   * @name bnh.moreMenu.directive:bnhSub
-   * @restrict E
-   *
-   * @description
-   * Adds behavior to Dropdown items, including repositioning menus when overflowed.
-   */
-    .directive('bnhSub', [
-      '$timeout',
-      'moreMenuService',
-      function ($timeout, moreMenuService) {
-        return {
-          restrict: 'E',
-          scope: {
-            child: '=options'
-          },
-          templateUrl: 'angular-more-menu/views/sub.html',
+            $scope.subStyle = {};
 
-          compile: function (element) {
-            return moreMenuService.recursiveCompile(element, function ($scope, element) {
+            var renderSub = function () {
+              if ($scope.child.isOpen && moreMenuService.getMediaQuery() === 'desktop') {
+                $timeout(function () {
 
-              $scope.subStyle = {};
-
-              var renderSub = function () {
-                if ($scope.child.isOpen && moreMenuService.getMediaQuery() === 'desktop') {
-                  $timeout(function () {
-
-                    if (!$scope.child.root) {
-                      // Reposition dropdown if menu goes offscreen. Do not reposition user menu (aligned right)
-                      var position = element.parent().offset().left;
-                      var width = element.children().width();
-                      if (position + width > moreMenuService.getWindowWidth()) {
-                        $scope.subStyle.left = '-' + (position + width - moreMenuService.getWindowWidth() + 30) + 'px';
-                      } else {
-                        delete $scope.subStyle.left;
-                      }
+                  if (!$scope.child.root) {
+                    // Reposition dropdown if menu goes offscreen. Do not reposition user menu (aligned right)
+                    var position = element.parent().offset().left;
+                    var width = element.children().width();
+                    if (position + width > moreMenuService.getWindowWidth()) {
+                      $scope.subStyle.left = '-' + (position + width - moreMenuService.getWindowWidth() + 30) + 'px';
+                    } else {
+                      delete $scope.subStyle.left;
                     }
-                    // Ensure sub menu items are scrollable
-                    $scope.subStyle.maxHeight = moreMenuService.getWindowHeight() - 100 + 'px';
-                  }, 0);
+                  }
+                  // Ensure sub menu items are scrollable
+                  $scope.subStyle.maxHeight = moreMenuService.getWindowHeight() - 100 + 'px';
+                }, 0);
 
-                  // Make dropdown visible after repositioning complete
-                  $scope.subStyle.opacity = 1;
-                }
-              };
-
-              $scope.subStyle = {};
-              // In Desktop layout, check if default menu position extends beyond window bounds.
-              if ($scope.child && $scope.child.level === 0) {
-                $scope.$on('ag-chrome:open', function () {
-                  renderSub();
-                });
-                renderSub();
+                // Make dropdown visible after repositioning complete
+                $scope.subStyle.opacity = 1;
               }
+            };
 
-              $scope.handleClick = function ($event, option) {
-                moreMenuService.handleClick($scope, $event, option);
-                $scope.$emit('ag-chrome:open');
+            $scope.subStyle = {};
+            // In Desktop layout, check if default menu position extends beyond window bounds.
+            if ($scope.child && $scope.child.level === 0) {
+              $scope.$on('more-menu:open', function () {
+                renderSub();
+              });
+              renderSub();
+            }
 
-              };
-            });
-          }
-        };
-      }
-    ]
-  );
-};
+            $scope.handleClick = function ($event, option) {
+              moreMenuService.handleClick($scope, $event, option);
+              $scope.$emit('more-menu:open');
+
+            };
+          });
+        }
+      };
+    }
+  ]
+);
+
+angular.module("bnh.moremenu", []).run(["$templateCache", function($templateCache) {$templateCache.put("nav.html","\n\n<nav class=\"more-menu\" ng-class=\"{\'is-open\': options.mainmenu.isOpen, \'is-hidden\': options.mainmenu.isHidden}\" ng-style=\"options.mainmenu.style\">\n  <ul ng-show=\"showMainmenu\" class=\"more-menu-items\" role=\"menu\">\n\n    <li more-menu-item class=\"more-menu-item\" role=\"menuitem\" ng-repeat=\"child in options.mainmenu.children\" option=\"child\" ng-class=\"{\'is-active\': isCurrentState(child), \'is-open\': child.isOpen, \'is-hidden\': child.isHidden }\">\n      <a ng-click=\"handleClick($event, child)\" ng-href=\"{{getOptionHref(child)}}\" ng-class=\"{\'has-dropdown\': child.children}\">\n        {{child.title}}\n      </a>\n      <more-menu-sub options=\"child\"></more-menu-sub>\n    </li>\n\n    <li class=\"more-menu-item\" role=\"menuitem\" option=\"options.moremenu\" ng-class=\"{\'is-open\': options.moremenu.isOpen, \'is-hidden\': options.moremenu.isHidden}\">\n      <a class=\"has-dropdown\" ng-click=\"handleClick($event, options.moremenu)\">\n        {{options.moremenu.title}}\n      </a>\n      <more-menu-sub ng-if=\"options.moremenu.isOpen\" options=\"options.moremenu\"></more-menu-sub>\n    </li>\n  </ul>\n</nav>\n");
+$templateCache.put("sub.html","<div class=\"more-menu-sub\" role=\"menu\" ng-if=\"child.isOpen && child.children && child.children.length\" ng-style=\"subStyle\">\n  <div class=\"more-menu-sub-content\">\n    <ul ng-if=\"!child.columns || child.columns <= 1\">\n      <li class=\"more-menu-sub-item\" role=\"menuitem\" ng-repeat=\"child in child.children\">\n        <a ng-click=\"handleClick($event, child)\" ng-href=\"{{getOptionHref(child)}}\" ng-if=\"!child.hasDropdown\">\n          {{child.title}}\n        </a>\n        <div ng-if=\"child.hasDropdown\">\n          <span class=\"has-dropdown\" ng-click=\"handleClick($event, child)\" ng-class=\"{\'is-open\': child.isOpen}\">{{child.title}}</span>\n          <more-menu-sub ng-if=\"child.isOpen\" options=\"child\"></more-menu-sub>\n        </div>\n      </li>\n    </ul>\n    <ul ng-if=\"child.columns > 1\" ng-repeat=\"column in child.children\">\n      <li class=\"more-menu-sub-head\">{{column.title}}</li>\n      <li class=\"more-menu-sub-item\" role=\"menuitem\" ng-repeat=\"child in column.children\">\n        <a ng-click=\"handleClick($event, child)\" ng-href=\"{{getOptionHref(child)}}\" ng-if=\"!child.hasDropdown\">\n          {{child.title}}\n        </a>\n        <span ng-if=\"child.hasDropdown\">{{child.title}}</span>\n        <more-menu-sub ng-if=\"child.hasDropdown && child.isOpen\" options=\"child\"></more-menu-sub>\n      </li>\n    </ul>\n  </div>\n</div>\n");}]);
+
+})();

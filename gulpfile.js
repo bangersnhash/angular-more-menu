@@ -3,7 +3,9 @@
 var gulp = require('gulp');
 var del = require('del');
 var $ = require('gulp-load-plugins')();
-var eventStream = require('event-stream')
+var eventStream = require('event-stream');
+var streamqueue = require('streamqueue');
+var templateCache = require('gulp-angular-templatecache');
 
 var express = require('express'),
     refresh = require('gulp-livereload'),
@@ -17,17 +19,20 @@ var server = express();
 server.use(livereload({port: livereloadport}));
 // Use our 'dist' folder as rootfolder
 server.use(express.static('./dist'));
+server.use(express.static('./example'));
+
 // Because I like HTML5 pushstate .. this redirects everything back to our index.html
 server.all('/*', function(req, res) {
-  res.sendfile('index.html', { root: 'dist' });
+  res.sendfile('index.html', { root: 'example' });
 });
 
 gulp.task('sass', function () {
 
   gulp.src('./angular-more-menu/styles/main.scss')
     .pipe($.sass().on('error', $.sass.logError))
+    .pipe($.rename('angular-more-menu.css'))
     .pipe(gulp.dest('./dist/css'))
-    .pipe($.rename('angular-more-menu.css'));
+    ;
 
 });
 
@@ -37,8 +42,6 @@ gulp.task('clean', function () {
   ]);
 });
 
-// Dev task
-gulp.task('dev', ['clean', 'html', 'sass', 'lint', 'js'], function() { });
 
 // JSHint task
 gulp.task('lint', function() {
@@ -49,19 +52,29 @@ gulp.task('lint', function() {
 
 // Browserify task
 gulp.task('js', function() {
-  var js = gulp.src(['angular-more-menu/app.js', 'angular-more-menu/scripts/*.js']);
-  var tmpl = gulp.src(['angular-more-menu/views/*.html']);
 
-  tmpl.pipe($.ngTemplates('bnh.more.menu'));
-
-  eventStream.merge(js, tmpl)
+  return streamqueue({ objectMode: true },
+    gulp.src(['angular-more-menu/app.js', 'angular-more-menu/scripts/*.js'])
+      .pipe($.concatUtil('js', {
+        process: function (src) {
+          return (src.trim() + '\n').replace(/(^|\n)[ \t]*('use strict'|"use strict");?\s*/g, '$1');
+        }
+      })),
+    gulp.src(['angular-more-menu/views/*.html'])
+      .pipe($.ngTemplates('bnh.moremenu'))
+    )
     .pipe($.concat('angular-more-menu.js'))
+    .pipe($.wrapper({
+       header: '(function(){\n"use strict";\n\n',
+       footer: '\n\n})();\n'
+    }))
     .pipe(gulp.dest('dist/js'))
     .pipe($.uglify())
     .pipe($.rename({
         suffix: ".min"
     }))
-    .pipe(gulp.dest('dist/js'));
+    .pipe(gulp.dest('dist/js'))
+    ;
 });
 
 gulp.task('html', function() {
@@ -96,5 +109,7 @@ gulp.task('watch', ['lint'], function() {
   gulp.watch('./dist/**').on('change', refresh.changed);
 
 });
+// Dev task
+gulp.task('dev', ['clean', 'html', 'sass', 'lint', 'js'], function() { });
 
 gulp.task('default', ['dev', 'watch']);

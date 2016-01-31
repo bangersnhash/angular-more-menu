@@ -19,6 +19,7 @@ function moreMenuService ($filter, $compile, $window) {
   var openItems = [];
   var lastPosition = 0;
   var menuFilter;
+  var hasJQ = ($window.jQuery) ? true : false;
 
   var service = {
     setProperty: setProperty,
@@ -30,6 +31,7 @@ function moreMenuService ($filter, $compile, $window) {
     getWindowHeight: getWindowHeight,
     getScrollOffset: getScrollOffset,
     getCollapsed: getCollapsed,
+    hasJQ: hasJQ,
     recursiveCompile: recursiveCompile,
     handleClick: handleClick,
     closeAll: closeAll,
@@ -118,9 +120,11 @@ function moreMenuService ($filter, $compile, $window) {
 
   // Set the media query based on screen width
   function updateMediaQuery () {
-    windowWidth = $window.innerWidth;
-    windowHeight = $window.innerHeight;
-    mediaQuery = windowWidth >= 600 ? 'desktop' : 'phone';
+    /** Disabling mobile mode for initial release **/
+    // windowWidth = $window.innerWidth;
+    // windowHeight = $window.innerHeight;
+    // mediaQuery = windowWidth >= 600 ? 'desktop' : 'phone';
+    mediaQuery = 'desktop';
     return mediaQuery;
   }
 

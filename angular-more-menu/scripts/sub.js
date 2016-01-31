@@ -31,8 +31,8 @@ angular.module('bnh.moremenu')
                 $timeout(function () {
 
                   if (!$scope.child.root) {
-                    // Reposition dropdown if menu goes offscreen. Do not reposition user menu (aligned right)
-                    var position = element.parent().offset().left;
+                    // Reposition dropdown if menu goes offscreen.
+                    var position = (moreMenuService.hasJQ) ? element.parent().offset().left : element.parent()[0].offsetLeft;
                     var width = element.children().width();
                     if (position + width > moreMenuService.getWindowWidth()) {
                       $scope.subStyle.left = '-' + (position + width - moreMenuService.getWindowWidth() + 30) + 'px';

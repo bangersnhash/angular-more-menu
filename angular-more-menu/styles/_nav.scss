@@ -7,6 +7,9 @@
   height: $bnh-menu-height !important;
   font-size: 0;
   text-align: center;
+  * {
+    box-sizing: border-box;
+  }
   .phone-only, .is-hidden {
     display: none !important;
   }

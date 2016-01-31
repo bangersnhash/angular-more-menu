@@ -3,6 +3,8 @@
   height: 35px !important;
   font-size: 0;
   text-align: center; }
+  .more-menu * {
+    box-sizing: border-box; }
   .more-menu .phone-only, .more-menu .is-hidden {
     display: none !important; }
 

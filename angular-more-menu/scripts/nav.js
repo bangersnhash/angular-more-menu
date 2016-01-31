@@ -46,7 +46,7 @@ angular.module('bnh.moremenu')
       templateUrl: 'angular-more-menu/views/nav.html',
       link: function ($scope, element) {
 
-        $scope.$element = $(element);
+        $scope.$element = angular.element(element);
 
         // Set default values for chrome options if not specified on directive
         if (!$scope.source && !$scope.sourceJson) {
@@ -57,15 +57,15 @@ angular.module('bnh.moremenu')
         }
 
         // Load ui.router for sref functionality, if in use by project
-        $scope.hasUiRouter = $injector.has('ui.router');
-        var $state = ($scope.hasUiRouter) ? $injector.get('ui.router') : null;
+        var hasUiRouter = $injector.has('ui.router');
+        var $state = (hasUiRouter) ? $injector.get('ui.router') : null;
 
         // Store current json source for menus
         var sourceJson = {
           'mainmenu': $scope.sourceJson
         };
         var source = {
-          'mainmenu': $scope.data
+          'mainmenu': $scope.source
         };
 
         // Global Nav Menu parameters
@@ -120,7 +120,7 @@ angular.module('bnh.moremenu')
           $scope.redrawMenuItems();
         });
 
-        populateMenu('mainmenu');
+        //populateMenu('mainmenu');
 
         $scope.mainFilter = mainFilter;
         $scope.moreFilter = moreFilter;
@@ -142,10 +142,9 @@ angular.module('bnh.moremenu')
           }
         });
 
-        // Refresh menu options if the source changes
-        $scope.$watch('sourceJson', function () {
-          if ($scope.sourceJson && $scope.sourceJson !== sourceJson.mainmenu) {
-            sourceJson.mainmenu = $scope.sourceJson;
+        $scope.$watch('source', function () {
+          if ($scope.source && $scope.source !== source.mainmenu) {
+            source.mainmenu = $scope.source;
             updateMenu('mainmenu');
           }
         });
@@ -187,7 +186,7 @@ angular.module('bnh.moremenu')
         }
 
         function getOptionHref (option) {
-          if (option.sref && $scope.hasUiRouter) {
+          if (option.sref && hasUiRouter) {
             return $state.href(option.sref);
           } else if (option.uri) {
             return option.uri;
@@ -242,7 +241,7 @@ angular.module('bnh.moremenu')
             populateMenu(menuType, source[menuType]);
             deferred.resolve();
           }
-          return deferred;
+          return deferred.promise;
         }
 
         function redrawMenuItems () {
@@ -280,14 +279,17 @@ angular.module('bnh.moremenu')
       },
       controller: [
         '$scope',
-        '$state',
+        '$injector',
         '$location',
         'moreMenuService',
         function (
           $scope,
-          $state,
+          $injector,
           $location,
           moreMenuService) {
+
+          var hasUiRouter = $injector.has('ui.router');
+          var $state = (hasUiRouter) ? $injector.get('ui.router') : null;
 
           $scope.handleClick = function ($event, option) {
             moreMenuService.handleClick($scope, $event, option);
@@ -296,7 +298,7 @@ angular.module('bnh.moremenu')
           // Check for active state
           $scope.isCurrentState = function (option) {
             var currentPath;
-            if (option.sref) {
+            if (option.sref && hasUiRouter) {
               return $state.includes(option.sref);
             } else if (option.uri) {
               currentPath = option.uri.substring(option.uri.indexOf('#') + 1);

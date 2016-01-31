@@ -1,7 +1,7 @@
 
 
 <nav class="more-menu" ng-class="{'is-open': options.mainmenu.isOpen, 'is-hidden': options.mainmenu.isHidden}" ng-style="options.mainmenu.style">
-  <ul ng-show="showMainmenu" class="more-menu-items" role="menu">
+  <ul class="more-menu-items" role="menu">
 
     <li more-menu-item class="more-menu-item" role="menuitem" ng-repeat="child in options.mainmenu.children" option="child" ng-class="{'is-active': isCurrentState(child), 'is-open': child.isOpen, 'is-hidden': child.isHidden }">
       <a ng-click="handleClick($event, child)" ng-href="{{getOptionHref(child)}}" ng-class="{'has-dropdown': child.children}">

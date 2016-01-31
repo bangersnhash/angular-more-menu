@@ -50,7 +50,7 @@ gulp.task('lint', function() {
   .pipe($.jshint.reporter('default'));
 });
 
-// Browserify task
+// Script task
 gulp.task('js', function() {
 
   return streamqueue({ objectMode: true },
@@ -61,13 +61,18 @@ gulp.task('js', function() {
         }
       })),
     gulp.src(['angular-more-menu/views/*.html'])
-      .pipe($.ngTemplates('bnh.moremenu'))
+      .pipe($.ngTemplates({
+        module: 'bnh.moremenu.templates',
+        path: function (path, base) {
+          return path.replace(/(.*)angular-more-menu(.*)/gi, 'angular-more-menu$2');
+        }
+      }))
     )
     .pipe($.concat('angular-more-menu.js'))
-    .pipe($.wrapper({
-       header: '(function(){\n"use strict";\n\n',
-       footer: '\n\n})();\n'
-    }))
+    // .pipe($.wrapper({
+    //    header: '(function(){\n"use strict";\n\n',
+    //    footer: '\n\n})();\n'
+    // }))
     .pipe(gulp.dest('dist/js'))
     .pipe($.uglify())
     .pipe($.rename({
@@ -94,7 +99,7 @@ gulp.task('watch', ['lint'], function() {
   // Watch our scripts, and when they change run lint and browserify
   gulp.watch(['angular-more-menu/scripts/*.js', 'angular-more-menu/scripts/**/*.js'],[
     'lint',
-    'browserify'
+    'js'
   ]);
 
   // Watch our sass files
@@ -102,9 +107,7 @@ gulp.task('watch', ['lint'], function() {
     'sass'
   ]);
 
-  gulp.watch(['angular-more-menu/**/*.html'], [
-    'views'
-  ]);
+  gulp.watch(['angular-more-menu/**/*.html'], ['html', 'js']);
 
   gulp.watch('./dist/**').on('change', refresh.changed);
 
